@@ -36,7 +36,6 @@ public class Task8 {
 
   //Для фронтов выдадим полное имя, а то сами не могут
   public String convertPersonToString(Person person) {
-    if (person == null) return "";
     return Stream.of(person.getSecondName(), person.getFirstName(), person.getMiddleName())
             .filter(Objects::nonNull).collect(Collectors.joining(" "));
     // код стал короче и нагляднее. исправлено задвоение SecondName,
@@ -45,15 +44,14 @@ public class Task8 {
 
   // словарь id персоны -> ее имя
   public Map<Integer, String> getPersonNames(Collection<Person> persons) {
-    return persons == null ? Collections.emptyMap() :
-    persons.stream().collect(Collectors.toMap(Person::getId, this::convertPersonToString, (person1, person2) -> person1));
+    return persons.stream()
+            .collect(Collectors.toMap(Person::getId, this::convertPersonToString, (person1, person2) -> person1));
     // от цикла ушел к стриму для повышения читаемости кода
     // исключена ситуация, когда secondName пустой и итоговая строка начнется с пробела
   }
 
   // есть ли совпадающие в двух коллекциях персоны?
   public boolean hasSamePersons(Collection<Person> persons1, Collection<Person> persons2) {
-    if (persons1 == null || persons2 == null) return false;
     Set<Person> personSet = new HashSet<>(persons1);
     personSet.retainAll(persons2);
     return !personSet.isEmpty();
@@ -63,7 +61,7 @@ public class Task8 {
 
   //...
   public long countEven(Stream<Integer> numbers) {
-    return numbers == null ? 0 : numbers.filter(num -> num % 2 == 0).count();
+    return numbers.filter(num -> num % 2 == 0).count();
     // нет необходимости в создании переменной для счетчика
     // и уж тем более вычислять итоговое количество перебором получившейся коллекции
   }
